@@ -18,11 +18,7 @@ struct sockaddr_ll {
 	unsigned short	sll_hatype;
 	unsigned char	sll_pkttype;
 	unsigned char	sll_halen;
-	union {
-		unsigned char	sll_addr[8];
-		/* Actual length is in sll_halen. */
-		__DECLARE_FLEX_ARRAY(unsigned char, sll_addr_flex);
-	};
+	unsigned char	sll_addr[8];
 };
 
 /* Packet types */
@@ -234,8 +230,8 @@ struct tpacket_hdr_v1 {
 	 * ts_first_pkt:
 	 *		Is always the time-stamp when the block was opened.
 	 *		Case a)	ZERO packets
-	 *			No packets to deal with but atleast you know the
-	 *			time-interval of this block.
+	 *			No packets to deal with but at least you know
+	 *			the time-interval of this block.
 	 *		Case b) Non-zero packets
 	 *			Use the ts of the first packet in the block.
 	 *
@@ -269,7 +265,8 @@ enum tpacket_versions {
    - struct tpacket_hdr
    - pad to TPACKET_ALIGNMENT=16
    - struct sockaddr_ll
-   - Gap, chosen so that packet data (Start+tp_net) alignes to TPACKET_ALIGNMENT=16
+   - Gap, chosen so that packet data (Start+tp_net) aligns to
+     TPACKET_ALIGNMENT=16
    - Start+tp_mac: [ Optional MAC header ]
    - Start+tp_net: Packet data, aligned to TPACKET_ALIGNMENT=16.
    - Pad to align to TPACKET_ALIGNMENT=16

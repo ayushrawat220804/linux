@@ -83,7 +83,7 @@
 
 #include <asm/irq.h>
 #include <asm/byteorder.h>
-#include <asm/unaligned.h>
+#include <linux/unaligned.h>
 
 static int dbg_level;
 #ifdef ISP1362_DEBUG
@@ -2651,8 +2651,7 @@ static int isp1362_probe(struct platform_device *pdev)
 	if (IS_ERR(addr_reg))
 		return PTR_ERR(addr_reg);
 
-	data = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-	data_reg = devm_ioremap_resource(&pdev->dev, data);
+	data_reg = devm_platform_get_and_ioremap_resource(pdev, 0, &data);
 	if (IS_ERR(data_reg))
 		return PTR_ERR(data_reg);
 
